@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# carpeta de construccion
+cmake-build-debug/
+cmake-build-release/
+build/
+
+# proyeto clion
+.idea/
