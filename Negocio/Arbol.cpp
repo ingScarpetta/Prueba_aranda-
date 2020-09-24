@@ -52,50 +52,49 @@ std::shared_ptr<Negocio::Nodo> Negocio::Arbol::BuscarNodo(int valor) {
     if (_nodoRaiz->GetValor() == valor ){
         return _nodoRaiz;
     }
-    Nodo * nodoPadre;
     std::shared_ptr<Nodo> nodo = _nodoRaiz;
-    while(nodo->GetIzquierda() != nullptr){
-        nodo = nodo->GetIzquierda();
-        if (nodo->GetValor() == valor){
-            return nodo;
-        }
-    }
-    if(nodo != _nodoRaiz){
-        nodoPadre = nodo->GetPadre();
-    }
-    else{
-        while(nodo->GetDerecha() != nullptr) {
-            nodo = nodo->GetDerecha();
-            if (nodo->GetValor() == valor) {
+    if(valor < nodo->GetValor())
+    {
+        while(nodo->GetIzquierda()!= nullptr){
+            nodo = nodo->GetIzquierda();
+            if(valor == nodo->GetValor()){
                 return nodo;
             }
-        }
-        nodoPadre = nodo->GetPadre();
-        while(nodoPadre->GetPadre()!= nullptr ) {
-            while (nodoPadre->GetIzquierda() != nullptr)
-            {
-                nodo=nodoPadre->GetIzquierda();
-                if (nodo->GetValor() == valor){
-                    return nodo;
+            if(valor > nodo->GetValor()){
+                if(nodo->GetDerecha() != nullptr){
+                    nodo =nodo->GetDerecha();
+                    if(valor == nodo->GetValor()){
+                        return nodo;
+                    }
                 }
                 else{
-                    nodoPadre=nodoPadre->GetPadre();
+                    return nullptr;
                 }
 
             }
         }
     }
-    while(nodoPadre->GetPadre()!= nullptr ) {
-        while (nodoPadre->GetDerecha() != nullptr) {
-            nodo = nodoPadre->GetDerecha();
-            if (nodo->GetValor() == valor) {
+    if(valor > nodo->GetValor())
+    {
+        while(nodo->GetDerecha()!= nullptr){
+            nodo = nodo->GetDerecha();
+            if(valor == nodo->GetValor()){
                 return nodo;
-            } else {
-                nodoPadre = nodoPadre->GetPadre();
             }
-
+            if(valor < nodo->GetValor()){
+                if(nodo->GetIzquierda() != nullptr){
+                    nodo =nodo->GetIzquierda();
+                    if(valor == nodo->GetValor()){
+                        return nodo;
+                    }
+                }
+                else{
+                    return nullptr;
+                }
+            }
         }
     }
+
     return nullptr;
 }
 

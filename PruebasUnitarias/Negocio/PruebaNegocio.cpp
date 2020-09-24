@@ -94,6 +94,16 @@ TEST( PruebaArboles , NumeroCuatro) {
 }
 TEST( PruebaArboles , NumeroCinco) {
 
+    Arbol arbolb(2);
+    arbolb.AgregarNodo(5);
+    arbolb.AgregarNodo(4);
+    arbolb.AgregarNodo(3);
+    arbolb.AgregarNodo(2);
+
+    EXPECT_EQ(arbolb.BuscarNodo(6), nullptr);
+}
+TEST( PruebaArboles , NumeroSeis) {
+
     Arbol arbolb(3);
     std::shared_ptr<Nodo> nodo  = arbolb.AgregarNodo(1);
     arbolb.AgregarNodo(2);
@@ -104,7 +114,7 @@ TEST( PruebaArboles , NumeroCinco) {
     if (respuesta)
         EXPECT_EQ(*arbolb.BuscarAncestro(nodo1,nodo2),3);
 }
-TEST( PruebaArboles , NumeroSeis) {
+TEST( PruebaArboles , NumeroSiete) {
 
     Arbol arbolb(4);
     std::shared_ptr<Nodo> nodo  = arbolb.AgregarNodo(5);
