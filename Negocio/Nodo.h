@@ -24,7 +24,7 @@ namespace Negocio {
 
         std::shared_ptr<Nodo>  _derecha;
         std::shared_ptr<Nodo> _izquierda;
-        Nodo * _padre; // no puede ser de tipo shared_ptr
+        Nodo * _padre; // no puede ser de tipo shared_ptr. NO debe delete _padre
         int _valor;
     };
 }

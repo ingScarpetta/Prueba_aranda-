@@ -5,6 +5,7 @@
 #pragma once
 
 #include <memory>
+#include <optional>
 
 #include "Nodo.h"
 
@@ -16,7 +17,7 @@ namespace Negocio {
 
         std::shared_ptr<Nodo>AgregarNodo(int valor);
 
-        std::shared_ptr<Nodo> BuscarAncestro(std::shared_ptr<Nodo> nodo1, std::shared_ptr<Nodo> nodo2);
+        std::optional<int> BuscarAncestro(const std::shared_ptr<Nodo>& nodo1, const std::shared_ptr<Nodo>& nodo2);
 
         std::shared_ptr<Nodo> BuscarNodo(int valor);
 
