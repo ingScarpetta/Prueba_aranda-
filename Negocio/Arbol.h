@@ -12,13 +12,15 @@ namespace Negocio {
     class Arbol {
 
     public:
-        Arbol();
+        Arbol(size_t id);
 
-        void AgregarNodo(int valor);
+        std::shared_ptr<Nodo>AgregarNodo(int valor);
 
         std::shared_ptr<Nodo> BuscarAncestro(std::shared_ptr<Nodo> nodo1, std::shared_ptr<Nodo> nodo2);
 
         std::shared_ptr<Nodo> BuscarNodo(int valor);
+
+        std::shared_ptr<Nodo> GetNodoRaiz();
 
     private:
 

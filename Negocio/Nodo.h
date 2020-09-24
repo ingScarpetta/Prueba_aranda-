@@ -13,15 +13,18 @@ namespace Negocio {
 
         Nodo (int valor);
 
-        void AgregarNodoHijo(int valor);
+        std::shared_ptr<Nodo> AgregarNodoHijo(int valor);
 
-        int GetValor();
+        int GetValor() const;
+        Nodo * GetPadre();
+        std::shared_ptr<Nodo> GetDerecha();
+        std::shared_ptr<Nodo> GetIzquierda();
 
     private:
 
         std::shared_ptr<Nodo>  _derecha;
         std::shared_ptr<Nodo> _izquierda;
-        std::shared_ptr<Nodo>  _padre;
+        Nodo * _padre; // no puede ser de tipo shared_ptr
         int _valor;
     };
 }
