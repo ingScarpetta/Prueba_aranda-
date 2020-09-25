@@ -24,6 +24,7 @@ std::optional<int> Negocio::AdministradorArboles::BuscarAncestro(size_t id, int 
 
 std::shared_ptr<Negocio::Arbol> Negocio::AdministradorArboles::CrearArbol(size_t id, const std::list<int>& valores) {
 
+    // Guardas base de datos. Obtener el ID
     return FactoriaArbol::GetArbol(id, valores);
 }
 

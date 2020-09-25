@@ -2,6 +2,7 @@ set(Self PruebaEjemplo)
 
 ADD_SUBDIRECTORY(Negocio)
 ADD_SUBDIRECTORY(API)
+ADD_SUBDIRECTORY(Persistencia)
 
 add_executable(${Self} prueba_ejemplo.cpp)
 target_link_libraries(${Self} gtest_main)

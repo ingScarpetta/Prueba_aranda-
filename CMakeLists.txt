@@ -12,7 +12,7 @@ enable_testing()
 add_subdirectory(googletest)
 add_subdirectory(PruebasUnitarias)
 add_subdirectory(Negocio)
-#add_subdirectory(Persistencia)
+add_subdirectory(Persistencia)
 add_subdirectory(API)
 
 add_executable(Prueba_aranda main.cpp)

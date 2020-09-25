@@ -8,6 +8,6 @@ endif()
 
 find_package(SOCI CONFIG REQUIRED)
 
-add_library(Persistencia )
+add_library(Persistencia  ArbolMapper.cpp ArbolMapper.h)
 target_include_directories(Persistencia PUBLIC .)
-target_link_libraries(main PRIVATE SOCI::soci_core SOCI::soci_empty SOCI::soci_sqlite3)
+target_link_libraries(Persistencia PRIVATE SOCI::soci_core SOCI::soci_empty SOCI::soci_sqlite3)
