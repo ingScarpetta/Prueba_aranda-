@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 if (WIN32)
     set(VCPKG_ROOT_DIR "C:/dev/vcpkg/installed/x86-windows")
+    set(CMAKE_TOOLCHAIN_FILE C:\\dev\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake)
 endif()
 
 enable_testing()
