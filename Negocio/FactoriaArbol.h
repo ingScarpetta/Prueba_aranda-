@@ -15,7 +15,7 @@ namespace Negocio {
 
     public:
         FactoriaArbol();
-        std::shared_ptr<Arbol> GetArbol(size_t id, std::list<int> valores);
+        static std::shared_ptr<Arbol> GetArbol(size_t id, const std::list<int>&  valores);
 
     };
 

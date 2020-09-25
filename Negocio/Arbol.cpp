@@ -49,49 +49,22 @@ std::optional<int> Negocio::Arbol::BuscarAncestro(const std::shared_ptr<Nodo>& n
 }
 
 std::shared_ptr<Negocio::Nodo> Negocio::Arbol::BuscarNodo(int valor) {
-    if (_nodoRaiz->GetValor() == valor ){
-        return _nodoRaiz;
-    }
-    std::shared_ptr<Nodo> nodo = _nodoRaiz;
-    if(valor < nodo->GetValor())
-    {
-        while(nodo->GetIzquierda()!= nullptr){
-            nodo = nodo->GetIzquierda();
-            if(valor == nodo->GetValor()){
-                return nodo;
-            }
-            if(valor > nodo->GetValor()){
-                if(nodo->GetDerecha() != nullptr){
-                    nodo =nodo->GetDerecha();
-                    if(valor == nodo->GetValor()){
-                        return nodo;
-                    }
-                }
-                else{
-                    return nullptr;
-                }
 
-            }
+    std::shared_ptr<Nodo> nodo = _nodoRaiz;
+
+    while (nodo != nullptr) {
+        if(valor == nodo->GetValor()){
+            return nodo;
         }
-    }
-    if(valor > nodo->GetValor())
-    {
-        while(nodo->GetDerecha()!= nullptr){
+        if(valor < nodo->GetValor()) {
+            nodo = nodo->GetIzquierda();
+        }
+        else if(valor > nodo->GetValor()) {
             nodo = nodo->GetDerecha();
-            if(valor == nodo->GetValor()){
-                return nodo;
-            }
-            if(valor < nodo->GetValor()){
-                if(nodo->GetIzquierda() != nullptr){
-                    nodo =nodo->GetIzquierda();
-                    if(valor == nodo->GetValor()){
-                        return nodo;
-                    }
-                }
-                else{
-                    return nullptr;
-                }
-            }
+        }
+        else {
+            // Aqui no debe llegar
+            break;
         }
     }
 
@@ -101,3 +74,8 @@ std::shared_ptr<Negocio::Nodo> Negocio::Arbol::BuscarNodo(int valor) {
 std::shared_ptr<Negocio::Nodo> Negocio::Arbol::GetNodoRaiz() {
     return _nodoRaiz;
 }
+
+size_t Negocio::Arbol::GetID() const {
+    return _id;
+}
+

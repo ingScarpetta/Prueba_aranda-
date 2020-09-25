@@ -82,15 +82,24 @@ TEST( PruebaArboles , NumeroTres) {
 
     EXPECT_EQ(arbolb.BuscarNodo(3)->GetPadre()->GetValor(),2);
 }
-TEST( PruebaArboles , NumeroCuatro) {
+TEST( PruebaArboles , Numerocuatro) {
 
     Arbol arbolb(2);
-    arbolb.AgregarNodo(5);
+    arbolb.AgregarNodo(1);
+    arbolb.AgregarNodo(2);
+    arbolb.AgregarNodo(8);
     arbolb.AgregarNodo(4);
     arbolb.AgregarNodo(3);
-    arbolb.AgregarNodo(2);
-
-    EXPECT_EQ(arbolb.BuscarNodo(3)->GetPadre()->GetValor(),4);
+    arbolb.AgregarNodo(9);
+    arbolb.AgregarNodo(10);
+    arbolb.AgregarNodo(5);
+    arbolb.AgregarNodo(11);
+    arbolb.AgregarNodo(12);
+    auto nodoBus =arbolb.BuscarNodo(3);
+    EXPECT_NE(nodoBus, nullptr);
+    if(nodoBus != nullptr) {
+        EXPECT_EQ(nodoBus->GetPadre()->GetValor(), 4);
+    }
 }
 TEST( PruebaArboles , NumeroCinco) {
 
@@ -100,9 +109,19 @@ TEST( PruebaArboles , NumeroCinco) {
     arbolb.AgregarNodo(3);
     arbolb.AgregarNodo(2);
 
-    EXPECT_EQ(arbolb.BuscarNodo(6), nullptr);
+    EXPECT_EQ(arbolb.BuscarNodo(3)->GetPadre()->GetValor(),4);
 }
 TEST( PruebaArboles , NumeroSeis) {
+
+    Arbol arbolb(2);
+    arbolb.AgregarNodo(5);
+    arbolb.AgregarNodo(4);
+    arbolb.AgregarNodo(3);
+    arbolb.AgregarNodo(2);
+
+    EXPECT_EQ(arbolb.BuscarNodo(6), nullptr);
+}
+TEST( PruebaArboles , NumeroSiete) {
 
     Arbol arbolb(3);
     std::shared_ptr<Nodo> nodo  = arbolb.AgregarNodo(1);
@@ -114,7 +133,7 @@ TEST( PruebaArboles , NumeroSeis) {
     if (respuesta)
         EXPECT_EQ(*arbolb.BuscarAncestro(nodo1,nodo2),3);
 }
-TEST( PruebaArboles , NumeroSiete) {
+TEST( PruebaArboles , NumeroOcho) {
 
     Arbol arbolb(4);
     std::shared_ptr<Nodo> nodo  = arbolb.AgregarNodo(5);
@@ -125,4 +144,38 @@ TEST( PruebaArboles , NumeroSiete) {
     EXPECT_EQ(static_cast<bool>(respuesta), true);
     if (respuesta)
         EXPECT_EQ(*arbolb.BuscarAncestro(nodo1,nodo2),3);
+}
+
+TEST( PruebaFactoria , NumeroUno) {
+
+    std::shared_ptr<Arbol> arbol = FactoriaArbol::GetArbol(2,{1,2,3,4,5,6});
+    EXPECT_EQ(arbol->GetNodoRaiz()->GetValor(),1);
+}
+TEST( PruebaFactoria , NumeroDos) {
+
+    std::shared_ptr<Arbol> arbol = FactoriaArbol::GetArbol(2,{1,2,3,4,5,6});
+    EXPECT_EQ(arbol->BuscarNodo(5)->GetPadre()->GetValor(),4);
+}
+TEST( PruebaFactoria , NumeroTres) {
+
+    std::shared_ptr<Arbol> arbol = FactoriaArbol::GetArbol(2,{1,2,8,4,3,9,10,5,11,12});
+    EXPECT_EQ(*arbol->BuscarAncestro(arbol->BuscarNodo(3),arbol->BuscarNodo(12)),8);
+}
+TEST( PruebaFactoria , NumeroCuatro) {
+
+    std::shared_ptr<Arbol> arbol = FactoriaArbol::GetArbol(2,{5,3,4,2});
+
+    EXPECT_EQ(*arbol->BuscarAncestro(arbol->BuscarNodo(4),arbol->BuscarNodo(2)),3);
+}
+TEST( PruebaAdministrador , NumeroUno) {
+
+    AdministradorArboles administrador;
+    std::shared_ptr<Arbol> arbol = administrador.CrearArbol(2,{5,3,4,2});
+
+    EXPECT_EQ(*arbol->BuscarAncestro(arbol->BuscarNodo(4),arbol->BuscarNodo(2)),3);
+}
+TEST( PruebaAdministrador , NumeroDos) {
+
+    AdministradorArboles administrador;
+    EXPECT_EQ(administrador.BuscarAncestro(1,4,2),3);
 }

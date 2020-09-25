@@ -23,6 +23,8 @@ namespace Negocio {
 
         std::shared_ptr<Nodo> GetNodoRaiz();
 
+        size_t GetID() const;
+
     private:
 
         std::shared_ptr<Nodo> _nodoRaiz;
