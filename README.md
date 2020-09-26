@@ -198,3 +198,18 @@ Los posibles errores son
 }
 ```
 
+# Release
+
+ * Se crea un release actual para la versión 1.0.0 para máquinas Windows x64.
+
+## Uso desde la línea de comandos
+
+* Se debe descargar el release y descomprimirlo
+* Se debe ingresar por CMD o powershell hasta el .exe
+* 80A continuación se debe ejecutar .\PruebaAranda.exe. Por defecto se despliega en el puerto 8080
+* Si se desea cambiar el puerto se debe hacer .\PruebaAranda.exe -p [[puerto]] o también .\PruebaAranda.exe --puerto [[puerto]]
+
+# Administración del proyecto
+
+Para el desarrollo del presente proyecto se usó [Trello](https://trello.com/b/CgbKYpLS/prueba-t%C3%A9cnica).
+
