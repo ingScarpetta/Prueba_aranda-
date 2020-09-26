@@ -16,3 +16,4 @@ add_subdirectory(Persistencia)
 add_subdirectory(API)
 
 add_executable(Prueba_aranda main.cpp)
+target_link_libraries(Prueba_aranda API)
