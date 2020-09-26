@@ -4,34 +4,24 @@
 
 #include "AdministradorArboles.h"
 #include "FactoriaArbol.h"
+#include "ArbolMapper.h"
 
 std::optional<int> Negocio::AdministradorArboles::BuscarAncestro(size_t id, int nodo1, int nodo2) {
 
     //aqui deberia aver un metodo que buscara el arbol por id
-    std::shared_ptr<Arbol> arbol = std::make_shared<Arbol>(id);
-    if (arbol == nullptr){
-        ArbolNoEncontradoExcep();
-        return {};
-    }
+    std::list<int> valores = _mapper.Consultar(id); // TODO: Revisar arbol no existe
+    std::shared_ptr<Arbol> arbol = FactoriaArbol::GetArbol(id,valores);
     std::shared_ptr<Nodo> ptrNodo1 = arbol->BuscarNodo(nodo1);
     std::shared_ptr<Nodo> ptrNodo2 = arbol->BuscarNodo(nodo2);
     if(ptrNodo1 == nullptr || ptrNodo2 == nullptr ){
-        NodoNoEncontradoExcep();
-        return {};
+        throw Persistencia::NodoNoEncontradoExcep();
     }
     return arbol->BuscarAncestro(ptrNodo1,ptrNodo2);
 }
 
-std::shared_ptr<Negocio::Arbol> Negocio::AdministradorArboles::CrearArbol(size_t id, const std::list<int>& valores) {
+std::shared_ptr<Negocio::Arbol> Negocio::AdministradorArboles::CrearArbol( const std::list<int>& valores) {
 
-    //TODO: Guardas base de datos. Obtener el ID
+    size_t id = _mapper.Guardar(valores);
     return FactoriaArbol::GetArbol(id, valores);
 }
 
-char const *Negocio::ArbolNoEncontradoExcep::what() const {
-    return "Arbol no encontrado";
-}
-
-char const *Negocio::NodoNoEncontradoExcep::what() const {
-    return "nodo no encontrado";
-}

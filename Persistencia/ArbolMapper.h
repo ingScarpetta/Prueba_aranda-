@@ -10,6 +10,13 @@
 
 namespace Persistencia {
 
+    struct ArbolNoEncontradoExcep : std::exception {
+        char const* what() const override;
+    };
+    struct NodoNoEncontradoExcep : std::exception {
+        char const* what() const override;
+    };
+
     class ArbolMapper {
     public:
         ArbolMapper();

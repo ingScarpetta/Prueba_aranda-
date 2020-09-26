@@ -170,13 +170,19 @@ TEST( PruebaFactoria , NumeroCuatro) {
 TEST( PruebaAdministrador , NumeroUno) {
 
     AdministradorArboles administrador;
-    std::shared_ptr<Arbol> arbol = administrador.CrearArbol(2,{5,3,4,2});
+    std::shared_ptr<Arbol> arbol = administrador.CrearArbol({5,3,4,2});
 
     EXPECT_EQ(*arbol->BuscarAncestro(arbol->BuscarNodo(4),arbol->BuscarNodo(2)),3);
 }
 TEST( PruebaAdministrador , NumeroDos) {
 
     AdministradorArboles administrador;
-    //EXPECT_EQ(administrador.BuscarAncestro(1,4,2),3);
-    EXPECT_EQ(3,3);
+    std::shared_ptr<Arbol> arbol = administrador.CrearArbol({5,3,4,2});
+    EXPECT_NE(arbol, nullptr);
+    if(arbol== nullptr )
+    {
+        return;
+    }
+    EXPECT_EQ(administrador.BuscarAncestro(arbol->GetID(),4,2),3);
+
 }

@@ -9,20 +9,17 @@
 
 #include "Arbol.h"
 #include "Nodo.h"
+#include "ArbolMapper.h"
 
 namespace Negocio {
-
-    struct ArbolNoEncontradoExcep : std::exception {
-        char const* what() const override;
-    };
-    struct NodoNoEncontradoExcep : std::exception {
-        char const* what() const override;
-    };
 
     class AdministradorArboles {
     public:
         std::optional<int> BuscarAncestro(size_t id, int nodo1, int nodo2);
-        std::shared_ptr<Arbol> CrearArbol(size_t id, const std::list<int>& valores);
+        std::shared_ptr<Arbol> CrearArbol( const std::list<int>& valores);
+
+    private:
+        Persistencia::ArbolMapper _mapper;
 
     };
 
