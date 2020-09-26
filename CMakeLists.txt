@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(Prueba_aranda)
+project(PruebaAranda)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -15,5 +15,5 @@ add_subdirectory(Negocio)
 add_subdirectory(Persistencia)
 add_subdirectory(API)
 
-add_executable(Prueba_aranda main.cpp)
-target_link_libraries(Prueba_aranda API)
+add_executable(PruebaAranda main.cpp)
+target_link_libraries(PruebaAranda API)

@@ -20,8 +20,8 @@ namespace API {
         web::http::experimental::listener::http_listener _servidor;
         Negocio::AdministradorArboles administrador;
 
-        void ProcesarPOST(web::http::http_request solictud);
-        void ProcesarPUT(web::http::http_request solictud);
+        void ProcesarPOST(web::http::http_request solicitud);
+        void ProcesarPUT(web::http::http_request solicitud);
 
         static utility::string_t ConstruirURL(const std::wstring& host, unsigned int puerto);
 

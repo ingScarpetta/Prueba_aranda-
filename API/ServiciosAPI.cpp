@@ -36,35 +36,36 @@ utility::string_t API::ServiciosAPI::ConstruirURL(const std::wstring &host, unsi
     return U("http://") + host + U(":") + std::to_wstring(puerto);
 }
 
-void API::ServiciosAPI::ProcesarPOST(web::http::http_request solictud) {
+void API::ServiciosAPI::ProcesarPOST(web::http::http_request solicitud) {
     // analizar json
+    std::wcout << solicitud.to_string() << std::endl;
     web::json::value respuesta;
     using web::http::uri;
-    std::vector<utility::string_t> urls = uri::split_path(uri::decode(solictud.request_uri().path()));
+    std::vector<utility::string_t> urls = uri::split_path(uri::decode(solicitud.request_uri().path()));
     if (urls.size() != 1) {
         respuesta[U("error")] = web::json::value( U("URL No encontrada"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     if (urls[0] != U("buscar-ancestro")) {
         respuesta[U("error")] = web::json::value( U("URL No encontrada"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
-    auto jsonSolicitud = solictud.extract_json().get();
+    auto jsonSolicitud = solicitud.extract_json().get();
     if (!jsonSolicitud.has_integer_field(U("id"))) {
         respuesta[U("error")] = web::json::value( U("Campo requerido id"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     if (!jsonSolicitud.has_integer_field(U("nodo1"))) {
         respuesta[U("error")] = web::json::value( U("Campo requerido nodo1"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     if (!jsonSolicitud.has_integer_field(U("nodo2"))) {
         respuesta[U("error")] = web::json::value( U("Campo requerido nodo2"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
 
@@ -79,43 +80,44 @@ void API::ServiciosAPI::ProcesarPOST(web::http::http_request solictud) {
     catch (Persistencia::ArbolNoEncontradoExcep& excepcion) {
         std::string mensaje (excepcion.what());
         respuesta[U("error")] = web::json::value( std::wstring(mensaje.begin(), mensaje.end()));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     catch (Persistencia::NodoNoEncontradoExcep& excepcion) {
         std::string mensaje (excepcion.what());
         respuesta[U("error")] = web::json::value( std::wstring(mensaje.begin(), mensaje.end()));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     if (!ancestro) {
         respuesta[U("error")] = web::json::value( U("No se encontró ancestro común más cercano"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     respuesta[U("ancestro")] = *ancestro;
-    solictud.reply(200, respuesta);
+    solicitud.reply(200, respuesta);
 }
 
-void API::ServiciosAPI::ProcesarPUT(web::http::http_request solictud) {
+void API::ServiciosAPI::ProcesarPUT(web::http::http_request solicitud) {
 
+    std::wcout << solicitud.to_string() << std::endl;
     web::json::value respuesta;
     using web::http::uri;
-    std::vector<utility::string_t> urls = uri::split_path(uri::decode(solictud.request_uri().path()));
+    std::vector<utility::string_t> urls = uri::split_path(uri::decode(solicitud.request_uri().path()));
     if (urls.size() != 1) {
         respuesta[U("error")] = web::json::value( U("URL No encontrada"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     if (urls[0] != U("crear")) {
         respuesta[U("error")] = web::json::value( U("URL No encontrada"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
-    auto jsonSolicitud = solictud.extract_json().get();
+    auto jsonSolicitud = solicitud.extract_json().get();
     if (!jsonSolicitud.has_array_field(U("valores"))) {
         respuesta[U("error")] = web::json::value( U("Campo requerido valores de tipo Arreglo"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
 
@@ -124,7 +126,7 @@ void API::ServiciosAPI::ProcesarPUT(web::http::http_request solictud) {
     for (auto& valor: arreglo) {
         if (!valor.is_integer()) {
             respuesta[U("error")] = web::json::value( U("Todos los valores deben ser enteros"));
-            solictud.reply(web::http::status_codes::BadRequest,respuesta);
+            solicitud.reply(web::http::status_codes::BadRequest,respuesta);
             return;
         }
         valores.push_back(valor.as_integer());
@@ -133,10 +135,10 @@ void API::ServiciosAPI::ProcesarPUT(web::http::http_request solictud) {
     auto arbol = administrador.CrearArbol(valores);
     if (arbol == nullptr) {
         respuesta[U("error")] = web::json::value( U("Error inesperado"));
-        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        solicitud.reply(web::http::status_codes::BadRequest,respuesta);
         return;
     }
     respuesta[U("id")] = arbol->GetID();
-    solictud.reply(200, respuesta);
+    solicitud.reply(200, respuesta);
 }
 
