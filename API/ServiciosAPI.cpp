@@ -6,8 +6,6 @@
 
 #include "ServiciosAPI.h"
 #include <cpprest/http_client.h>
-#include <cpprest/json.h>
-
 
 
 API::ServiciosAPI::ServiciosAPI(const std::wstring &host, unsigned int puerto)
@@ -40,8 +38,20 @@ utility::string_t API::ServiciosAPI::ConstruirURL(const std::wstring &host, unsi
 
 void API::ServiciosAPI::ProcesarPOST(web::http::http_request solictud) {
     // analizar json
-    auto jsonSolicitud = solictud.extract_json().get();
     web::json::value respuesta;
+    using web::http::uri;
+    std::vector<utility::string_t> urls = uri::split_path(uri::decode(solictud.request_uri().path()));
+    if (urls.size() != 1) {
+        respuesta[U("error")] = web::json::value( U("URL No encontrada"));
+        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        return;
+    }
+    if (urls[0] != U("buscar-ancestro")) {
+        respuesta[U("error")] = web::json::value( U("URL No encontrada"));
+        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        return;
+    }
+    auto jsonSolicitud = solictud.extract_json().get();
     if (!jsonSolicitud.has_integer_field(U("id"))) {
         respuesta[U("error")] = web::json::value( U("Campo requerido id"));
         solictud.reply(web::http::status_codes::BadRequest,respuesta);
@@ -89,8 +99,20 @@ void API::ServiciosAPI::ProcesarPOST(web::http::http_request solictud) {
 
 void API::ServiciosAPI::ProcesarPUT(web::http::http_request solictud) {
 
-    auto jsonSolicitud = solictud.extract_json().get();
     web::json::value respuesta;
+    using web::http::uri;
+    std::vector<utility::string_t> urls = uri::split_path(uri::decode(solictud.request_uri().path()));
+    if (urls.size() != 1) {
+        respuesta[U("error")] = web::json::value( U("URL No encontrada"));
+        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        return;
+    }
+    if (urls[0] != U("crear")) {
+        respuesta[U("error")] = web::json::value( U("URL No encontrada"));
+        solictud.reply(web::http::status_codes::BadRequest,respuesta);
+        return;
+    }
+    auto jsonSolicitud = solictud.extract_json().get();
     if (!jsonSolicitud.has_array_field(U("valores"))) {
         respuesta[U("error")] = web::json::value( U("Campo requerido valores de tipo Arreglo"));
         solictud.reply(web::http::status_codes::BadRequest,respuesta);
@@ -100,6 +122,11 @@ void API::ServiciosAPI::ProcesarPUT(web::http::http_request solictud) {
     auto arreglo = jsonSolicitud[U("valores")].as_array();
     std::list<int> valores;
     for (auto& valor: arreglo) {
+        if (!valor.is_integer()) {
+            respuesta[U("error")] = web::json::value( U("Todos los valores deben ser enteros"));
+            solictud.reply(web::http::status_codes::BadRequest,respuesta);
+            return;
+        }
         valores.push_back(valor.as_integer());
     }
     // hacer respuesta
