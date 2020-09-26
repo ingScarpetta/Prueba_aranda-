@@ -64,19 +64,19 @@ cmake --build .
 ## Casos de uso
 
 A continuación se muestra el diagrama de casos de uso del sistema
-[!Casos de uso](docs/img/v1.0.0/Modelo_casos_uso.png)
+![Casos de uso](docs/img/v1.0.0/Modelo_casos_uso.png)
 
 ## Diagrama de componentes
 
 A continuación se muestra el diagrama de componentes del sistema. Como se obseva se separó el proyecto en tres módulos principales
-[!Casos de uso](docs/img/v1.0.0/Diagrama_Componentes.png)
+![Casos de uso](docs/img/v1.0.0/Diagrama_Componentes.png)
 
 
 ## Diagrama de clases
 
 A continuación se muestra el diagrama de clases del sistema. Se observan las clases a la izquierda correspondientes al componente Servicios, en el centro al componente  Arboles y a la derecha a Persistencia.
 
-[!Casos de uso](docs/img/v1.0.0/Modelo_Clases.png)
+![Casos de uso](docs/img/v1.0.0/Modelo_Clases.png)
 
 ## API
 
