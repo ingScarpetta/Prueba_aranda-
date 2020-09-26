@@ -11,14 +11,151 @@
 
 using namespace API;
 
+
+
+
+
 TEST( PruebaApi , NumeroUno) {
-    web::json::value entrada_json;
-    entrada_json[U("id")] = 12;
-    entrada_json[U("float")] = 12.45;
-    entrada_json[U("arreglo")] = web::json::value::array({2, 3, 4, 5});
-    utility::string_t nombre(U("Laura mi nombre"));
-    entrada_json[U("nombre")] = web::json::value(nombre,
-                                                 false);
-    std::wcout << entrada_json << std::endl;
-    EXPECT_EQ(1,1);
+    // Se crea servidor
+    ServiciosAPI servidor("localhost", 8080);
+    servidor.Subir();
+    // Se crea Cliente
+    web::http::client::http_client cliente(U("http://localhost:8080/"));
+    // Se crean datos de creacion de arbol
+    web::json::value datosCrear;
+    datosCrear[U("valores")] = web::json::value::array({1,2,3,4});
+    // Se crea consulta
+    web::http::http_request solicitudCrear(web::http::methods::POST);
+    solicitudCrear.set_request_uri(U("crear"));
+    solicitudCrear.set_body(datosCrear);
+    auto respuestaCrear = cliente.request(solicitudCrear).get();
+    // Se procesa respuesta de creación
+    EXPECT_EQ( respuestaCrear.status_code(),200);
+    auto jsonCrear = respuestaCrear.extract_json().get();
+    EXPECT_TRUE(jsonCrear.has_integer_field(U("id")));
+    if (!jsonCrear.has_integer_field(U("id"))) {
+        return;
+    }
+    int idCreado = jsonCrear[U("id")].as_integer();
+    EXPECT_GT(idCreado, 0);
+    if (idCreado <= 0) {
+        return;
+    }
+    // Se crean datos para buscar ancestro
+    web::json::value datosAncestro;
+    datosAncestro[U("id")] = idCreado;
+    datosAncestro[U("nodo1")] = 3;
+    datosAncestro[U("nodo2")] = 4;
+    // Se consulta ancestro
+    web::http::http_request solicitudBuscar(web::http::methods::GET);
+    solicitudBuscar.set_request_uri(U("buscar-ancestro"));
+    solicitudBuscar.set_body(datosAncestro);
+    auto respuestaBuscar = cliente.request(solicitudBuscar).get();
+    // Se procesa respuesta de Buscar Ancestro
+    EXPECT_EQ( respuestaBuscar.status_code(),200);
+    auto jsonBuscar = respuestaBuscar.extract_json().get();
+    EXPECT_TRUE(jsonBuscar.has_integer_field(U("ancestro")));
+    if (!jsonBuscar.has_integer_field(U("ancestro"))) {
+        return;
+    }
+    int ancestro = jsonBuscar[U("ancestro")].as_integer();
+    EXPECT_EQ(ancestro, 3);
+    // Se detiene servidor
+    servidor.Bajar();
+}
+TEST( PruebaApi , NumeroDos) {
+    // Se crea servidor
+    ServiciosAPI servidor("localhost", 8080);
+    servidor.Subir();
+    // Se crea Cliente
+    web::http::client::http_client cliente(U("http://localhost:8080/"));
+    // Se crean datos de creacion de arbol
+    web::json::value datosCrear;
+    datosCrear[U("valores")] = web::json::value::array({1,2,3,4});
+    // Se crea consulta
+    web::http::http_request solicitudCrear(web::http::methods::POST);
+    solicitudCrear.set_request_uri(U("crear"));
+    solicitudCrear.set_body(datosCrear);
+    auto respuestaCrear = cliente.request(solicitudCrear).get();
+    // Se procesa respuesta de creación
+    EXPECT_EQ( respuestaCrear.status_code(),200);
+    auto jsonCrear = respuestaCrear.extract_json().get();
+    EXPECT_TRUE(jsonCrear.has_integer_field(U("id")));
+    if (!jsonCrear.has_integer_field(U("id"))) {
+        return;
+    }
+    int idCreado = jsonCrear[U("id")].as_integer();
+    EXPECT_GT(idCreado, 0);
+    if (idCreado <= 0) {
+        return;
+    }
+    // Se crean datos para buscar ancestro
+    web::json::value datosAncestro;
+    datosAncestro[U("id")] = idCreado;
+    datosAncestro[U("nodo1")] = 5;
+    datosAncestro[U("nodo2")] = 4;
+    // Se consulta ancestro
+    web::http::http_request solicitudBuscar(web::http::methods::GET);
+    solicitudBuscar.set_request_uri(U("buscar-ancestro"));
+    solicitudBuscar.set_body(datosAncestro);
+    auto respuestaBuscar = cliente.request(solicitudBuscar).get();
+    // Se procesa respuesta de Buscar Ancestro
+    EXPECT_EQ( respuestaBuscar.status_code(),400);
+    auto jsonBuscar = respuestaBuscar.extract_json().get();
+    EXPECT_TRUE(jsonBuscar.has_string_field(U("error")));
+    if (!jsonBuscar.has_string_field(U("error"))) {
+        return;
+    }
+    const utility::string_t& ancestro = jsonBuscar[U("error")].as_string();
+    EXPECT_EQ(ancestro, U("Nodo no encontrado"));
+    // Se detiene servidor
+    servidor.Bajar();
+}
+TEST( PruebaApi , NumeroTres) {
+    // Se crea servidor
+    ServiciosAPI servidor("localhost", 8080);
+    servidor.Subir();
+    // Se crea Cliente
+    web::http::client::http_client cliente(U("http://localhost:8080/"));
+    // Se crean datos de creacion de arbol
+    web::json::value datosCrear;
+    datosCrear[U("valores")] = web::json::value::array({1, 2, 3, 4});
+    // Se crea consulta
+    web::http::http_request solicitudCrear(web::http::methods::POST);
+    solicitudCrear.set_request_uri(U("crear"));
+    solicitudCrear.set_body(datosCrear);
+    auto respuestaCrear = cliente.request(solicitudCrear).get();
+    // Se procesa respuesta de creación
+    EXPECT_EQ(respuestaCrear.status_code(), 200);
+    auto jsonCrear = respuestaCrear.extract_json().get();
+    EXPECT_TRUE(jsonCrear.has_integer_field(U("id")));
+    if (!jsonCrear.has_integer_field(U("id"))) {
+        return;
+    }
+    int idCreado = jsonCrear[U("id")].as_integer();
+    EXPECT_GT(idCreado, 0);
+    if (idCreado <= 0) {
+        return;
+    }
+    // Se crean datos para buscar ancestro
+    web::json::value datosAncestro;
+    datosAncestro[U("id")] = 500;
+    datosAncestro[U("nodo1")] = 5;
+    datosAncestro[U("nodo2")] = 4;
+    // Se consulta ancestro
+    web::http::http_request solicitudBuscar(web::http::methods::GET);
+    solicitudBuscar.set_request_uri(U("buscar-ancestro"));
+    solicitudBuscar.set_body(datosAncestro);
+    auto respuestaBuscar = cliente.request(solicitudBuscar).get();
+    // Se procesa respuesta de Buscar Ancestro
+    EXPECT_EQ(respuestaBuscar.status_code(), 400);
+    auto jsonBuscar = respuestaBuscar.extract_json().get();
+    EXPECT_TRUE(jsonBuscar.has_string_field(U("error")));
+    if (!jsonBuscar.has_string_field(U("error"))) {
+        return;
+    }
+    const utility::string_t &ancestro = jsonBuscar[U("error")].as_string();
+    EXPECT_EQ(ancestro, U("Nodo no encontrado"));
+    // Se detiene servidor
+    servidor.Bajar();
 }

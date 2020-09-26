@@ -54,5 +54,5 @@ char const *Persistencia::ArbolNoEncontradoExcep::what() const {
 }
 
 char const *Persistencia::NodoNoEncontradoExcep::what() const {
-    return "nodo no encontrado";
+    return "Nodo no encontrado";
 }
