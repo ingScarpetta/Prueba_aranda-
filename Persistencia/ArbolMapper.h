@@ -5,6 +5,8 @@
 #pragma once
 
 #include <list>
+#include <soci/soci.h>
+#include <soci/sqlite3/soci-sqlite3.h>
 
 namespace Persistencia {
 
@@ -16,5 +18,7 @@ namespace Persistencia {
         std::list<int> Consultar(size_t id);
 
     private:
-    };
+/* NO USAR soci::session sql("sqlite3", "db=db.sqlite timeout=2 shared_cache=true");
+ * . Carga dinamicamente propenso a errores */
+};
 }
