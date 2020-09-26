@@ -7,4 +7,5 @@ target_include_directories(API PUBLIC .)
 target_link_libraries(API
         cpprestsdk::cpprest
         cpprestsdk::cpprestsdk_zlib_internal
-        cpprestsdk::cpprestsdk_brotli_internal)
+        cpprestsdk::cpprestsdk_brotli_internal
+        Negocio)

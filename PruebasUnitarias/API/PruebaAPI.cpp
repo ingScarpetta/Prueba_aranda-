@@ -12,12 +12,9 @@
 using namespace API;
 
 
-
-
-
 TEST( PruebaApi , NumeroUno) {
     // Se crea servidor
-    ServiciosAPI servidor("localhost", 8080);
+    ServiciosAPI servidor(U("localhost"), 8080);
     servidor.Subir();
     // Se crea Cliente
     web::http::client::http_client cliente(U("http://localhost:8080/"));
@@ -25,7 +22,7 @@ TEST( PruebaApi , NumeroUno) {
     web::json::value datosCrear;
     datosCrear[U("valores")] = web::json::value::array({1,2,3,4});
     // Se crea consulta
-    web::http::http_request solicitudCrear(web::http::methods::POST);
+    web::http::http_request solicitudCrear(web::http::methods::PUT);
     solicitudCrear.set_request_uri(U("crear"));
     solicitudCrear.set_body(datosCrear);
     auto respuestaCrear = cliente.request(solicitudCrear).get();
@@ -47,7 +44,7 @@ TEST( PruebaApi , NumeroUno) {
     datosAncestro[U("nodo1")] = 3;
     datosAncestro[U("nodo2")] = 4;
     // Se consulta ancestro
-    web::http::http_request solicitudBuscar(web::http::methods::GET);
+    web::http::http_request solicitudBuscar(web::http::methods::POST);
     solicitudBuscar.set_request_uri(U("buscar-ancestro"));
     solicitudBuscar.set_body(datosAncestro);
     auto respuestaBuscar = cliente.request(solicitudBuscar).get();
@@ -65,7 +62,7 @@ TEST( PruebaApi , NumeroUno) {
 }
 TEST( PruebaApi , NumeroDos) {
     // Se crea servidor
-    ServiciosAPI servidor("localhost", 8080);
+    ServiciosAPI servidor(U("localhost"), 8080);
     servidor.Subir();
     // Se crea Cliente
     web::http::client::http_client cliente(U("http://localhost:8080/"));
@@ -73,7 +70,7 @@ TEST( PruebaApi , NumeroDos) {
     web::json::value datosCrear;
     datosCrear[U("valores")] = web::json::value::array({1,2,3,4});
     // Se crea consulta
-    web::http::http_request solicitudCrear(web::http::methods::POST);
+    web::http::http_request solicitudCrear(web::http::methods::PUT);
     solicitudCrear.set_request_uri(U("crear"));
     solicitudCrear.set_body(datosCrear);
     auto respuestaCrear = cliente.request(solicitudCrear).get();
@@ -95,7 +92,7 @@ TEST( PruebaApi , NumeroDos) {
     datosAncestro[U("nodo1")] = 5;
     datosAncestro[U("nodo2")] = 4;
     // Se consulta ancestro
-    web::http::http_request solicitudBuscar(web::http::methods::GET);
+    web::http::http_request solicitudBuscar(web::http::methods::POST);
     solicitudBuscar.set_request_uri(U("buscar-ancestro"));
     solicitudBuscar.set_body(datosAncestro);
     auto respuestaBuscar = cliente.request(solicitudBuscar).get();
@@ -113,7 +110,7 @@ TEST( PruebaApi , NumeroDos) {
 }
 TEST( PruebaApi , NumeroTres) {
     // Se crea servidor
-    ServiciosAPI servidor("localhost", 8080);
+    ServiciosAPI servidor(U("localhost"), 8080);
     servidor.Subir();
     // Se crea Cliente
     web::http::client::http_client cliente(U("http://localhost:8080/"));
@@ -121,7 +118,7 @@ TEST( PruebaApi , NumeroTres) {
     web::json::value datosCrear;
     datosCrear[U("valores")] = web::json::value::array({1, 2, 3, 4});
     // Se crea consulta
-    web::http::http_request solicitudCrear(web::http::methods::POST);
+    web::http::http_request solicitudCrear(web::http::methods::PUT);
     solicitudCrear.set_request_uri(U("crear"));
     solicitudCrear.set_body(datosCrear);
     auto respuestaCrear = cliente.request(solicitudCrear).get();
@@ -139,11 +136,11 @@ TEST( PruebaApi , NumeroTres) {
     }
     // Se crean datos para buscar ancestro
     web::json::value datosAncestro;
-    datosAncestro[U("id")] = 500;
+    datosAncestro[U("id")] = 99999;
     datosAncestro[U("nodo1")] = 5;
     datosAncestro[U("nodo2")] = 4;
     // Se consulta ancestro
-    web::http::http_request solicitudBuscar(web::http::methods::GET);
+    web::http::http_request solicitudBuscar(web::http::methods::POST);
     solicitudBuscar.set_request_uri(U("buscar-ancestro"));
     solicitudBuscar.set_body(datosAncestro);
     auto respuestaBuscar = cliente.request(solicitudBuscar).get();
@@ -155,7 +152,7 @@ TEST( PruebaApi , NumeroTres) {
         return;
     }
     const utility::string_t &ancestro = jsonBuscar[U("error")].as_string();
-    EXPECT_EQ(ancestro, U("Nodo no encontrado"));
+    EXPECT_EQ(ancestro, U("Arbol no encontrado"));
     // Se detiene servidor
     servidor.Bajar();
 }
